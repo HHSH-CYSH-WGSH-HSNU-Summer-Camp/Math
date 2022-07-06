@@ -94,7 +94,7 @@
                 \item 矩陣
                 \item 生成函數、線性代數、還有更多 $\ldots$
             \end{enumerate}
-        \item<2-> 本堂課會介紹剛剛講的前三個
+        \item<2-> 本堂課會介紹剛剛講的前三個，如果時間還夠的話，我們可能會補充第四個
     \end{itemize}
 \end{frame}
 
@@ -123,7 +123,7 @@
 \end{frame}
 
 \begin{frame}{快速冪} 
-    不過事實上，我們有更快的方式可以處理這個問題，將 $b$ 表示為二進位的形式 $b_0 b_1 \ldots$
+    不過事實上，我們有更快的方式可以處理這個問題，將 $b$ 表示為二進位的形式 $b_k b_{k-1} \ldots b_1b_0$
     $$a^b = \underbrace{b_0 a^0 \cdot b_1 a^1 \cdot \dots}_{\log_2{b} \ \text{times}}$$
     我們就可以在 $O(\log_2{b})$ 的時間完成次方的計算了
 \end{frame}
@@ -224,7 +224,7 @@
     \begin{itemize}
         \item<1-> 雖然剛剛那個方式已經非常快速了，大部分的問題也都可以直接解決
         \item<1-> 不過事實上還有更快的作法可以幫助我們做到這件事
-        \item<3-> 我們來看看下面這份 code
+        \item<2-> 我們來看看下面這份 code
     \end{itemize}
 \end{frame}
 
@@ -248,20 +248,7 @@
         \item<2-> 我們可以使用剛剛的兩個篩法進行預處理
         \item<2-> 就可以在 $O(\log n)$ 的時間對 $n$ 進行質因數分解了!
     \end{itemize}
-    \begin{alertblock}{Lowest Prime Factor (最小質因數)}
-        對於一個數字 $x$，我們定義他的 \texttt{lpf[x]} 為他最小的質因數 \\
-        \vspace{5mm}
-        範例: \texttt{lpf[2]} = $2$、\texttt{lpf[15]} = $3$
-    \end{alertblock}
-\end{frame}
-
-\begin{frame}{回到質因數分解}
-    \begin{itemize}
-        \item<1-> 首先，要進行更快的質因數分解，我們要對每個人找他們的 LPF
-        \item<2-> 我們可以使用剛剛的兩個篩法進行預處理
-        \item<2-> 就可以在 $O(\log n)$ 的時間對 $n$ 進行質因數分解了!
-    \end{itemize}
-    \begin{alertblock}{Lowest Prime Factor (最小質因數)}
+    \begin{alertblock}{Least Prime Factor (最小質因數)}
         對於一個數字 $x$，我們定義他的 \texttt{lpf[x]} 為他最小的質因數 \\
         \vspace{5mm}
         範例: \texttt{lpf[2]} = $2$、\texttt{lpf[15]} = $3$
@@ -354,6 +341,15 @@
     \begin{alertblock}{輾轉相除法 (歐幾里得演算法)}
         當我們有兩個數字時，我們可以利用 $\gcd(a,b) = \gcd(b,a \bmod b)$ 的想法，持續向下遞迴，直到我們得到 $\gcd(x,0)$ 時，$x$ 即為 $\gcd(a,b)$
     \end{alertblock} 
+    \begin{block}{證明}
+        設 $m = \gcd(a,b)$，並將 $b$ 用除法原理寫成 $aq + (a\mod b)$，由於 $m \mid \gcd(a,b) \Rightarrow m \mid a, m \mid b$，因此，$m \mid b-aq = (a \mod b)$。
+    \end{block}
+\end{frame}
+
+\begin{frame}{最大公因數 (Greatest Common Divisor)}
+    \begin{alertblock}{輾轉相除法 (歐幾里得演算法)}
+        當我們有兩個數字時，我們可以利用 $\gcd(a,b) = \gcd(b,a \bmod b)$ 的想法，持續向下遞迴，直到我們得到 $\gcd(x,0)$ 時，$x$ 即為 $\gcd(a,b)$
+    \end{alertblock} 
     \begin{center}
         \includegraphics[]{images/code6.png}
     \end{center}
@@ -361,7 +357,7 @@
 
 \begin{frame}{貝祖定理 (Bézout's identity))}
     \begin{alertblock}{貝祖定理 (Bézout's identity)}
-        對於任何整數 $a,b,c$，若 $ax+by = c$ 存在整數解 $\iff$ $gcd(a,b) | c$
+        對於任何整數 $a,b,c$，若 $ax+by = c$ 存在整數解 $\iff$ $gcd(a,b) \mid c$
     \end{alertblock} 
 \end{frame}
 
@@ -369,10 +365,10 @@
     \begin{block}{證明}
         \begin{itemize}
             \item $(\Rightarrow)$ 
-            假設 $ax+by=c$ 存在整數解 $x=x_0, y=y_0$，則 $ax_0+by_0=c$，由於 $gcd(a,b) | a, \ gcd(a,b) | b$，原式可寫為 $gcd(a,b) (\dfrac{a}{gcd(a,b)}x_0 + \dfrac{b}{gcd(a,b)}y_0) = c$，故 $gcd(a,b) | c$
-            \item $(\Leftarrow)$ 假設 $a=0$，則 $gcd(a,b)=b$，式子變為 $by = c$，若 $x,y$ 存在整數解，則 $b|c$。 
+            假設 $ax+by=c$ 存在整數解 $x=x_0, y=y_0$，則 $ax_0+by_0=c$，由於 $gcd(a,b) \mid a, \ gcd(a,b) \mid b$，原式可寫為 $gcd(a,b) (\dfrac{a}{gcd(a,b)}x_0 + \dfrac{b}{gcd(a,b)}y_0) = c$，故 $gcd(a,b) \mid c$
+            \item $(\Leftarrow)$ 假設 $a=0$，則 $gcd(a,b)=b$，式子變為 $by = c$，若 $x,y$ 存在整數解，則 $b \mid c$。 
             \newline
-            假設 $a,b$ 皆不為 $0$，設集合 $S = \{ax+by|x,y \in \mathbb{Z}^2\}$，而 $S \cap \mathbb{N}$ 並非空集合 (必存在 $|a|, |b|$)。根據良序定理，$S$ 內必存在一個最小的正整數 $d = ax_0+by_0$。考慮 $S$ 中另一個數字 $p=ax_1+by_1$。根據除法原理，$p = qd + r$，其中 $q \in \mathbb{Z}, \ 0 \le r < d$。因此 $r = p-qd = (ax_1+by_1)-q(ax_0+by_0) = a(x_1-qx_0)+b(y_1-qy_0)$，得 $r \in S$。又因為前面的假設，$r$ 必為 $0$。任何 $S$ 當中的數字皆為 $d$ 的倍數。而 $a,b \in S$，因此 $d|a, \ d|b \Rightarrow d|gcd(a,b)$。而 $ax+by=d$ 有整數解，因此 $ax+by=gcd(a,b)$ 必有整數解。又因為 $gcd(a,b)|c$，因此 $ax+by=c$ 必有整數解
+            假設 $a,b$ 皆不為 $0$，設集合 $S = \{ax+by|x,y \in \mathbb{Z}^2\}$，而 $S \cap \mathbb{N}$ 並非空集合 (必存在 $|a|, |b|$)。根據良序定理，$S$ 內必存在一個最小的正整數 $d = ax_0+by_0$。考慮 $S$ 中另一個數字 $p=ax_1+by_1$。根據除法原理，$p = qd + r$，其中 $q \in \mathbb{Z}, \ 0 \le r < d$。因此 $r = p-qd = (ax_1+by_1)-q(ax_0+by_0) = a(x_1-qx_0)+b(y_1-qy_0)$，得 $r \in S$。又因為前面的假設，$r$ 必為 $0$。任何 $S$ 當中的數字皆為 $d$ 的倍數。而 $a,b \in S$，因此 $d \mid a, \ d \mid b \Rightarrow d \mid gcd(a,b)$。而 $ax+by=d$ 有整數解，因此 $ax+by=gcd(a,b)$ 必有整數解。又因為 $gcd(a,b) \mid c$，因此 $ax+by=c$ 必有整數解
         \end{itemize}
     \end{block}
 \end{frame}
@@ -547,7 +543,7 @@
         \begin{enumerate}
             \item 對於一個質數 $p$，$\phi(p) = p-1$
             \item 若 $a,b$ 互質，則 $\phi(ab) = \phi(a) \phi(b)$ (積性函數)
-            \item $a^{\phi(p)} \equiv 1 \pmod p$ (歐拉定理)
+            \item $a^{\phi(m)} \equiv 1 \pmod m$ (歐拉定理)
             \item 假設 $n=p_1^{\alpha_1}p_2^{\alpha_2}\dots p_k^{\alpha_k}$，則 $\phi(n) = n \prod_{i=1}^k (1-\frac{1}{p_i})$
         \end{enumerate}
     \end{alertblock}
@@ -588,7 +584,7 @@
 \begin{frame}{中國剩餘定理 (Chinese Remainder Theorem)}
     這個問題有兩種解法:
     \begin{enumerate}
-        \item 使用通解的形式找到答案 (數學上常用的方式)
+        \item 使用通解的形式找到答案
         \item 使用拓展歐幾里得算法計算答案 (比賽中常用的方式)
     \end{enumerate}
     第一種作法的話，我們會快速帶過，在競程上比較常使用第二種方式
@@ -596,10 +592,10 @@
 
 \begin{frame}{中國剩餘定理 (Chinese Remainder Theorem)}
     \begin{alertblock}{構造通解的方式}
-        假設 $m_1, m_2, \dots, m_n$ 
+        假設 $m_1, m_2, \dots, m_n$ 互質
         \begin{enumerate}
             \item 設 $M = m_1 m_2 \dots m_n = \prod_{i=1}^n m_i$，而 $M_i = M/m_i$
-            \item 設 $t_i = M^{-1}$，意即 $t_i$ 是 $M_i$ 的模反元素  
+            \item 設 $t_i \equiv M_i^{-1} \pmod m_i$，意即 $t_i$ 是 $M_i$ 的模反元素  
             \item 則通解會是 $x \equiv a_1t_1M_1 + a_2t_2M_2 + \dots + a_n t_n M_n \equiv \sum_{i=1}^n a_i t_i M_i \pmod M$
         \end{enumerate}
     \end{alertblock}
@@ -750,13 +746,6 @@
 \end{frame}
 
 \begin{frame}{組合 (Combination)}
-    從 $\{a,b,c\}$ 當中任選 $2$ 個元素的方法，一共有 $C^3_2 = 3$ 種
-    \begin{center}
-        \includegraphics[width=\textwidth]{images/combination.png}
-    \end{center}
-\end{frame}
-
-\begin{frame}{組合 (Combination)}
     \begin{alertblock}{重複組合 (Star and Bars)}
         從 $n$ 個元素中取出 $r$ 個，而這 $r$ 個元素可以重複出現，一共有 $H^n_r$ 種選法
         \begin{itemize}
@@ -794,7 +783,7 @@
             \item 至少存在一個 $i$ 使得 $A_i = 0$
             \item 至少存在一個 $i$ 使得 $A_i = 9$
         \end{itemize}
-    \end{block} 
+    \end{block} \pause
     \begin{itemize}
         \item 排容原理!
         \item 全部的數量 - (沒有 $0$) - (沒有 $9$) + (沒有 $0$ 也沒有 $9$)
@@ -994,11 +983,12 @@
 
 \begin{frame}{含有莫比烏斯函數的排容}
     \begin{alertblock}{莫比烏斯函數的性質}
-        $\displaystyle \sum_{d|n} \mu(d) = [n=1]$ \\
-        證明: \\
+        $$\displaystyle \sum_{d|n} \mu(d) = [n=1]$$ 
+    \end{alertblock} \pause
+    \begin{block}{證明}
         假設 $n$ 有 $k$ 個不同的質因數，則根據二項式定理
         $$\sum_{d|n} \mu(d) = \binom{k}{0} - \binom{k}{1} + \dots + \binom{k}{k} = (1+(-1))^k = 0$$
-    \end{alertblock}
+    \end{block}
 \end{frame}
 
 \begin{frame}{含有莫比烏斯函數的排容}
@@ -1096,7 +1086,7 @@
                 \begin{matrix}
                     a_{11}x_1 + a_{12}x_2 + \dots + a_{1n}x_n &=& b_1\\
                     a_{21}x_1 + a_{22}x_2 + \dots + a_{2n}x_n &=& b_1\\
-                    \vdots & \vdots & \vdots & \vdots \\
+                    \vdots &= \vdots \\
                     a_{n1}x_1 + a_{n2}x_2 + \dots + a_{nn}x_n &=& b_1\\
                 \end{matrix}
             \right.
